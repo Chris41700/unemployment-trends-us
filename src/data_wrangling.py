@@ -30,4 +30,33 @@ print(null_values)
 duplicates = df.duplicated()
 print("Number of duplicate rows:", duplicates.sum())
 
- 
+# Remove irrelevant columns
+columns_to_remove = [
+    'FIPS Code', 
+    'Total Civilian Non-Institutional Population in State/Area', 
+    'Percent (%) of State/Area’s Population'
+]
+df = df.drop(columns=columns_to_remove, errors='ignore')
+
+# Convert columns from object type to int64
+columns_to_convert = [
+    'Total Civilian Labor Force in State/Area',
+    'Total Employment in State/Area',
+    'Total Unemployment in State/Area'
+]
+
+for column in columns_to_convert:
+    # Remove commas and convert to int64
+    df[column] = df[column].str.replace(',', '').astype(np.int64)
+
+# Verify the conversion
+print("\nUpdated DataFrame dtypes:")
+print(df.dtypes)
+
+# Final shape of the DataFrame
+print("\nFinal DataFrame shape:", df.shape)
+
+# Save the cleaned DataFrame to a new CSV file
+output_path = '../data/processed/cleaned_unemployment_in_america_per_us_state.csv'
+df.to_csv(output_path, index=False)
+print(f"\nCleaned data saved to {output_path}")
