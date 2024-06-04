@@ -50,11 +50,8 @@ for column in columns_to_convert:
     df[column] = df[column].str.replace(',', '').astype(np.int64)
 
 # Verify the conversion
-print("\nUpdated DataFrame dtypes:")
-print(df.dtypes)
-
-# Final shape of the DataFrame
-print("\nFinal DataFrame shape:", df.shape)
+print("Updated DataFrame Info:")
+print(df.info())
 
 # Save the cleaned DataFrame to a new CSV file
 output_path = '../data/processed/cleaned_unemployment_in_america_per_us_state.csv'
