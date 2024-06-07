@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 # Load the dataset
@@ -32,8 +33,7 @@ print("Number of duplicate rows:", duplicates.sum())
 # Remove irrelevant columns
 columns_to_remove = [
     'FIPS Code', 
-    'Total Civilian Non-Institutional Population in State/Area', 
-    'Percent (%) of State/Area’s Population'
+    'Total Civilian Non-Institutional Population in State/Area',
 ]
 df = df.drop(columns=columns_to_remove, errors='ignore')
 
