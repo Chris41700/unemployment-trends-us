@@ -20,14 +20,14 @@ numerical_columns = [
 annual_data = df.groupby(['Year'])[numerical_columns].mean().reset_index()
 
 # Plot histograms for each numerical column (aggregated by year)
-# for column in numerical_columns:
-#     plt.figure(figsize=(10, 6))
-#     plt.hist(annual_data[column], bins=30, edgecolor='k', alpha=0.7)
-#     plt.title(f'Histogram of {column} (Aggregated by Year)')
-#     plt.xlabel(column)
-#     plt.ylabel('Frequency')
-#     plt.grid(True)
-#     plt.show()
+for column in numerical_columns:
+    plt.figure(figsize=(10, 6))
+    plt.hist(annual_data[column], bins=30, edgecolor='k', alpha=0.7)
+    plt.title(f'Histogram of {column} (Aggregated by Year)')
+    plt.xlabel(column)
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
 
 # Create a dictionary to store the statistics
 stats = {}
@@ -81,4 +81,60 @@ plt.title('Monthly Total Unemployment in the United States (1976-2022)')
 plt.xlabel('Date')
 plt.ylabel('Total Unemployment')
 plt.grid(True)
+plt.show()
+
+# Selecting columns of interest
+columns_of_interest = [
+    'Total Civilian Labor Force in State/Area',
+    'Total Employment in State/Area',
+    'Total Unemployment in State/Area',
+    'Percent (%) of Labor Force Employed in State/Area',
+    'Percent (%) of Labor Force Unemployed in State/Area'
+]
+
+# Plotting scatter plots for more detailed view
+fig, axes = plt.subplots(3, 2, figsize=(15, 18))
+fig.suptitle('Scatter Plots of Variables of Interest against Employment and Unemployment Rates', y=0.93)
+
+# Plot 1: Total Civilian Labor Force vs Employment Rate
+sns.scatterplot(ax=axes[0, 0], data=df, x='Total Civilian Labor Force in State/Area', y='Percent (%) of Labor Force Employed in State/Area')
+axes[0, 0].set_title('Total Civilian Labor Force vs Employment Rate')
+
+# Plot 2: Total Civilian Labor Force vs Unemployment Rate
+sns.scatterplot(ax=axes[0, 1], data=df, x='Total Civilian Labor Force in State/Area', y='Percent (%) of Labor Force Unemployed in State/Area')
+axes[0, 1].set_title('Total Civilian Labor Force vs Unemployment Rate')
+
+# Plot 3: Total Employment vs Employment Rate
+sns.scatterplot(ax=axes[1, 0], data=df, x='Total Employment in State/Area', y='Percent (%) of Labor Force Employed in State/Area')
+axes[1, 0].set_title('Total Employment vs Employment Rate')
+
+# Plot 4: Total Employment vs Unemployment Rate
+sns.scatterplot(ax=axes[1, 1], data=df, x='Total Employment in State/Area', y='Percent (%) of Labor Force Unemployed in State/Area')
+axes[1, 1].set_title('Total Employment vs Unemployment Rate')
+
+# Plot 5: Total Unemployment vs Employment Rate
+sns.scatterplot(ax=axes[2, 0], data=df, x='Total Unemployment in State/Area', y='Percent (%) of Labor Force Employed in State/Area')
+axes[2, 0].set_title('Total Unemployment vs Employment Rate')
+
+# Plot 6: Total Unemployment vs Unemployment Rate
+sns.scatterplot(ax=axes[2, 1], data=df, x='Total Unemployment in State/Area', y='Percent (%) of Labor Force Unemployed in State/Area')
+axes[2, 1].set_title('Total Unemployment vs Unemployment Rate')
+
+plt.tight_layout()
+plt.show()
+
+# Calculate the correlation matrix
+correlation_matrix = df[['Total Civilian Labor Force in State/Area',
+                         'Total Employment in State/Area',
+                         'Total Unemployment in State/Area',
+                         'Percent (%) of Labor Force Employed in State/Area',
+                         'Percent (%) of Labor Force Unemployed in State/Area']].corr()
+
+# Display the correlation matrix
+print(correlation_matrix)
+
+# Plotting the correlation heatmap
+plt.figure(figsize=(10, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Heatmap of Variables')
 plt.show()
